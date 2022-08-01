@@ -7,7 +7,7 @@ public class Album {
 //    that holds objects of type Song called songs.
     private String name;
     private String artist;
-    private ArrayList<Song> songs = new ArrayList<Song>();
+    private ArrayList<Song> songs;
 
 //    A constructor that accepts two Strings (name of the album and artist).
 //    It initialises the fields and instantiates songs.
@@ -24,9 +24,8 @@ public class Album {
     //    addSong(), has two parameters of type String (title of song), double (duration of song) and returns a boolean.
 //    Returns true if the song was added successfully or false otherwise.
     public boolean addSong(String title, double duration) {
-        Song tempSong = findSong(title);
-        if (tempSong == null) {
-            songs.add(new Song(title, duration));
+        if (findSong(title) == null) {
+            this.songs.add(new Song(title, duration));
             return true;
         }
         return false;
@@ -35,8 +34,13 @@ public class Album {
 //    findSong(), has one parameter of type String (title of song) and returns a Song.
 //    Returns the Song if it exists, null if it doesn't exists.
     private Song findSong(String title) {
-        for (int i = 0; i < this.songs.size(); i++) {
-            if (songs.get(i).getTitle().equals(title)) return songs.get(i);
+//        MY SOLUTION
+//        for (int i = 0; i < this.songs.size(); i++) {
+//            if (songs.get(i).getTitle().equals(title)) return songs.get(i);
+//        }
+//        TIM'S SOLUTION
+        for (Song checkedSong: this.songs) {
+            if (checkedSong.getTitle().equals(title)) return checkedSong;
         }
         return null;
     }
@@ -45,10 +49,8 @@ public class Album {
 //    that holds objects of type Song, and returns a boolean.
 //    Returns true if it exists and it was added successfully using the track number, or false otherwise.
     public boolean addToPlayList(int trackNumberInAlbum, LinkedList<Song> playlist) {
-        if (trackNumberInAlbum > 0 && trackNumberInAlbum <= songs.size()) {
-            String song = songs.get(trackNumberInAlbum-1).getTitle();
-            return addToPlayList(song, playlist);
-        }
+        if (trackNumberInAlbum > 0 && trackNumberInAlbum <= songs.size())
+            return addToPlayList(songs.get(trackNumberInAlbum-1).getTitle(), playlist);
         return false;
     }
 
@@ -56,8 +58,9 @@ public class Album {
 //    that holds objects of type Song, and returns a boolean.
 //    Returns true if it exists and it was added successfully using the name of the song, or false otherwise.
     public boolean addToPlayList(String titleOfSong, LinkedList<Song> playlist) {
-        if (findSong(titleOfSong) != null) {
-            playlist.add(findSong(titleOfSong));
+        Song tempSong = findSong(titleOfSong);
+        if (tempSong != null) {
+            playlist.add(tempSong);
             return true;
         }
         return false;
