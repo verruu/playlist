@@ -17,7 +17,7 @@ public class Song {
     }
 
 //    toString(), Songs overriding toString method. Returns a String in the following format: "title: duration"
-    public String toString(String title, double duration) {
-        return title + ": " + duration;
+    public String toString() {
+        return this.title + ": " + this.duration;
     }
 }
