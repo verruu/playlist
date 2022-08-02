@@ -104,13 +104,38 @@ public class Main {
                     }
                     break;
                 case 3:
-//                    ReplayCurrent();
+                    if (forward) {
+                        if (listIterator.hasPrevious()) {
+                            System.out.println("Now replaying: " + listIterator.previous().toString());
+                            forward = false;
+                        } else {
+                            System.out.println("Begining of the playlist.");
+                        }
+                    } else if (!forward) {
+                        if (listIterator.hasNext()) {
+                            System.out.println("Now replaying: " + listIterator.next().toString());
+                            forward = true;
+                        } else {
+                            System.out.println("End of the playlist.");
+                        }
+                    }
                     break;
                 case 4:
                     printSongList(playList);
                     break;
                 case 5:
                     printMenu();
+                    break;
+                case 6:
+                    if (playList.size() > 0) {
+                        listIterator.remove();
+                        System.out.println("Current position has been removed.");
+                        if (listIterator.hasNext())
+                            System.out.println("Now playing: " + listIterator.next());
+                        else if (listIterator.hasPrevious())
+                            System.out.println("Now playing: " + listIterator.previous());
+                    } else if (playList.isEmpty())
+                        System.out.println("Can not remove a file, playlist is empty.");
                     break;
                 default:
                     System.out.println("Invalid input, please try again (0 to quit, 5 for menu).");
@@ -120,6 +145,8 @@ public class Main {
     }
 
     public static void printSongList(LinkedList<Song> playList) {
+        if (playList.isEmpty())
+            System.out.println("Playlist is empty.");
         for (int i = 0; i < playList.size(); i++)
             System.out.println(playList.get(i).toString());
 //        TIM'S POINT OF VIEW
@@ -138,6 +165,7 @@ public class Main {
                 "2 to move to the previous song,\n" +
                 "3 to replay the current song,\n" +
                 "4 to print full song list,\n" +
-                "5 to print the playlist menu");
+                "5 to print the playlist menu,\n" +
+                "6 to remove current song from the playlist.");
     }
 }
